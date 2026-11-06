@@ -379,87 +379,107 @@ p { margin: 0; }
   color: transparent;
 }
 
-.pillars p, .steps p, .faq p, .treat-copy p {
+.pillars p, .steps p, .faq p, .treat-card p {
   margin-top: 0.35rem;
   color: var(--muted);
   font-weight: 300;
 }
 
+.treat-label {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2.4rem;
+}
+
+.treat-label::before,
+.treat-label::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, #97734d, #d8bc8f, #97734d);
+}
+
+.treat-label span {
+  flex: 0 1 auto;
+  background: var(--coffee);
+  color: var(--off);
+  padding: 0.72rem 1.35rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
 .treats {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1.15rem;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1rem;
 }
 
 .treat-card {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-  padding: 1.45rem 1.35rem 1.3rem;
+  align-items: center;
+  text-align: center;
+  min-height: 380px;
+  padding: 1.6rem 1.1rem 1.3rem;
   background: #fff;
   color: var(--coffee);
-  border-radius: 22px;
+  border-radius: 28px;
   box-shadow: 0 10px 28px rgba(59, 47, 39, 0.05);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease, color 0.35s ease;
 }
 
 .treat-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 18px 36px rgba(59, 47, 39, 0.1);
-}
-
-.treat-featured {
-  grid-column: span 2;
+  transform: translateY(-10px);
   background: var(--coffee);
   color: var(--off);
-  flex-direction: row;
-  align-items: center;
-  gap: 1.4rem;
-  padding: 1.8rem 1.9rem;
+  box-shadow: 0 22px 44px rgba(59, 47, 39, 0.16);
 }
 
-.treat-featured:hover {
-  background: var(--coffee);
-  color: var(--off);
+.treat-card:hover p { color: rgba(246, 243, 240, 0.78); }
+
+.treat-card:hover .treat-icon { color: var(--gold-light); }
+
+.treat-card:hover .btn-soft {
+  background: linear-gradient(100deg, #b8946a, #ebd7b4, #b8946a);
+  color: var(--coffee);
+  border-color: transparent;
 }
-
-.treat-featured .treat-copy p { color: rgba(246, 243, 240, 0.82); }
-
-.treat-featured .treat-icon { color: var(--gold-light); }
 
 .treat-card h3 {
   margin: 0;
   font-size: 1.28rem;
   line-height: 1.2;
+  min-height: 3.1rem;
 }
-
-.treat-featured h3 { font-size: 1.7rem; }
 
 .treat-icon {
-  width: 48px;
-  height: 48px;
-  margin: 0 0 0.7rem;
+  width: 52px;
+  height: 52px;
+  margin: 1.1rem 0 0.9rem;
   color: var(--coffee);
-  flex: 0 0 auto;
 }
 
-.treat-featured .treat-icon { margin: 0; width: 56px; height: 56px; }
+.treat-card p {
+  flex: 1;
+  font-size: 0.86rem;
+  line-height: 1.55;
+}
 
 .btn-soft {
-  margin-top: 0.95rem;
-  padding: 0.65rem 0.95rem;
+  margin-top: 1.1rem;
+  padding: 0.68rem 1rem;
   background: var(--off);
   color: var(--coffee);
   border-color: transparent;
   letter-spacing: 0.04em;
   text-transform: none;
   font-size: 0.78rem;
-}
-
-.treat-featured .btn-soft {
-  background: linear-gradient(100deg, #b8946a, #ebd7b4, #b8946a);
-  color: var(--coffee);
+  white-space: nowrap;
 }
 
 .btn-soft:hover {
@@ -859,10 +879,11 @@ body.menu-open .dock { visibility: hidden; }
 
   .treats { grid-template-columns: 1fr 1fr; }
 
-  .treat-featured {
-    grid-column: 1 / -1;
-    flex-direction: row;
-  }
+  .treat-card { min-height: 0; }
+
+  .treat-card h3 { min-height: 0; }
+
+  .treat-label span { white-space: normal; text-align: center; }
 
   .about-copy {
     position: static;
@@ -871,8 +892,17 @@ body.menu-open .dock { visibility: hidden; }
 
   .about img { max-height: 70vh; }
 
+  .consultorio-card {
+    padding: 1.25rem 1.15rem 1.3rem;
+    border-radius: 20px;
+  }
+
+  .consultorio-card h2 { font-size: 1.55rem; margin-bottom: 0.4rem; }
+
+  .consultorio-note { display: none; }
+
   .consultorio-map,
-  .consultorio-map iframe { min-height: 320px; }
+  .consultorio-map iframe { min-height: 240px; }
 
   .float { display: none; }
 
@@ -931,29 +961,35 @@ body.menu-open .dock { visibility: hidden; }
     gap: 8px;
   }
 
-  .treat-card,
-  .treat-featured {
-    grid-column: auto;
-    flex-direction: row;
+  .treat-card {
+    display: grid;
+    grid-template-columns: 36px 1fr 44px;
     align-items: center;
-    gap: 0.8rem;
+    column-gap: 0.8rem;
     min-height: 90px;
     padding: 0.75rem 0.85rem;
     border-radius: 16px;
+    text-align: left;
   }
 
   .treat-icon {
+    grid-column: 1;
+    grid-row: 1 / span 2;
     width: 36px;
     height: 36px;
     margin: 0;
   }
 
-  .treat-copy { flex: 1; min-width: 0; }
+  .treat-card h3 {
+    grid-column: 2;
+    grid-row: 1;
+    font-size: 1.05rem;
+    min-height: 0;
+  }
 
-  .treat-card h3,
-  .treat-featured h3 { font-size: 1.05rem; }
-
-  .treat-copy p {
+  .treat-card p {
+    grid-column: 2;
+    grid-row: 2;
     display: -webkit-box;
     -webkit-line-clamp: 1;
     line-clamp: 1;
@@ -962,8 +998,9 @@ body.menu-open .dock { visibility: hidden; }
     font-size: 0.84rem;
   }
 
-  .treat-card .btn-soft,
-  .treat-featured .btn-soft {
+  .treat-card .btn-soft {
+    grid-column: 3;
+    grid-row: 1 / span 2;
     margin: 0;
     width: 44px;
     min-width: 44px;
@@ -974,8 +1011,7 @@ body.menu-open .dock { visibility: hidden; }
     letter-spacing: 0;
   }
 
-  .treat-card .btn-soft span,
-  .treat-featured .btn-soft span { font-size: 1.1rem; }
+  .treat-card .btn-soft span { font-size: 1.1rem; }
 
   .steps {
     grid-template-columns: 1fr;
@@ -1028,9 +1064,33 @@ body.menu-open .dock { visibility: hidden; }
 
   .faq summary::after { float: none; }
 
-  .consultorio-card { padding: 1.5rem 1.25rem; border-radius: 22px; }
+  .consultorio-card {
+    padding: 1.1rem 1.05rem 1.15rem;
+    border-radius: 18px;
+  }
 
-  .consultorio-map { border-radius: 22px; }
+  .consultorio-card h2 {
+    font-size: 1.35rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .consultorio-card p { margin-top: 0.4rem; font-size: 0.92rem; }
+
+  .consultorio-note,
+  .consultorio-wa { display: none; }
+
+  .consultorio-hours { margin: 0.7rem 0 0.9rem; }
+
+  .consultorio-card .btn {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    font-size: 0.68rem;
+  }
+
+  .consultorio-map,
+  .consultorio-map iframe { min-height: 200px; }
+
+  .consultorio-map { border-radius: 18px; }
 
   .about-copy h2 { font-size: 1.7rem; }
 }
