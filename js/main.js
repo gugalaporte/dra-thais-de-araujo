@@ -44,21 +44,6 @@ window.addEventListener("scroll", () => {
   header.classList.toggle("is-stuck", window.scrollY > 8);
 }, { passive: true });
 
-const blocos = document.querySelectorAll(".reveal");
-if ("IntersectionObserver" in window) {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("is-in");
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.12 });
-  blocos.forEach((bloco) => observer.observe(bloco));
-} else {
-  blocos.forEach((bloco) => bloco.classList.add("is-in"));
-}
-
 document.querySelectorAll(".faq details").forEach((item) => {
   item.addEventListener("toggle", () => {
     if (!item.open) return;
@@ -68,24 +53,38 @@ document.querySelectorAll(".faq details").forEach((item) => {
   });
 });
 
-const navLinks = menu.querySelectorAll("a[href^='#']");
-const secoes = [...navLinks]
+const navLinks = [...menu.querySelectorAll("a[href^='#']")];
+const secoes = navLinks
   .map((link) => document.querySelector(link.getAttribute("href")))
   .filter(Boolean);
 
 function marcarMenu() {
-  const ponto = window.scrollY + 140;
-  let atual = secoes[0];
+  navLinks.forEach((link) => link.classList.remove("is-active"));
+  const ponto = window.scrollY + 150;
+  const primeira = secoes[0];
+  if (!primeira || ponto < primeira.offsetTop) return;
+
+  let atual = null;
   secoes.forEach((secao) => {
     if (secao.offsetTop <= ponto) atual = secao;
   });
-  navLinks.forEach((link) => {
-    link.classList.toggle("is-active", link.getAttribute("href") === "#" + atual.id);
-  });
+  if (!atual) return;
+
+  const ativo = navLinks.find((link) => link.getAttribute("href") === "#" + atual.id);
+  if (ativo) ativo.classList.add("is-active");
 }
 
 window.addEventListener("scroll", marcarMenu, { passive: true });
 marcarMenu();
+
+const dock = document.querySelector("[data-dock]");
+const contato = document.querySelector("#contato");
+if (dock && contato && "IntersectionObserver" in window) {
+  const verContato = new IntersectionObserver(([entry]) => {
+    dock.classList.toggle("is-hidden", entry.isIntersecting);
+  }, { threshold: 0.25 });
+  verContato.observe(contato);
+}
 
 function iniciarComparador(root) {
   const frame = root.querySelector("[data-frame]");
