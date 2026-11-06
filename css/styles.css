@@ -9,7 +9,7 @@
   --line: rgba(151, 115, 77, 0.35);
   --serif: "Cormorant Garamond", Georgia, serif;
   --sans: "Montserrat", sans-serif;
-  --header: 92px;
+  --header: 104px;
   --wide: 1120px;
 }
 
@@ -150,7 +150,7 @@ p { margin: 0; }
 
 .header.is-stuck { box-shadow: 0 10px 30px rgba(59, 47, 39, 0.06); }
 
-.header-logo img { height: 58px; width: auto; }
+.header-logo img { height: 72px; width: auto; }
 
 .nav {
   display: flex;
@@ -802,7 +802,7 @@ p { margin: 0; }
 }
 
 @media (max-width: 980px) {
-  :root { --header: 76px; }
+  :root { --header: 88px; }
 
   body { overflow-x: hidden; }
 
@@ -836,7 +836,7 @@ p { margin: 0; }
 
   .header .btn-small { display: none; }
 
-  .header-logo img { height: 42px; }
+  .header-logo img { height: 56px; }
 
   .hero, .about, .pillars { grid-template-columns: 1fr; }
 
@@ -912,8 +912,8 @@ p { margin: 0; }
   .header-logo { min-width: 0; }
 
   .header-logo img {
-    height: 34px;
-    max-width: min(200px, 60vw);
+    height: 48px;
+    max-width: min(260px, 72vw);
     object-fit: contain;
     object-position: left center;
   }
