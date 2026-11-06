@@ -80,3 +80,50 @@ function marcarMenu() {
 
 window.addEventListener("scroll", marcarMenu, { passive: true });
 marcarMenu();
+
+function iniciarComparador(root) {
+  const frame = root.querySelector("[data-frame]");
+  const beforeWrap = root.querySelector("[data-before]");
+  const beforeImg = beforeWrap.querySelector("img");
+  const range = root.querySelector("[data-range]");
+  let arrastando = false;
+
+  function tamanhoImagem() {
+    beforeImg.style.width = frame.offsetWidth + "px";
+    beforeImg.style.height = frame.offsetHeight + "px";
+  }
+
+  function setPos(pct) {
+    const p = Math.min(100, Math.max(0, pct));
+    root.style.setProperty("--pos", p + "%");
+    range.value = String(Math.round(p));
+  }
+
+  function posDoEvento(evento) {
+    const ponto = evento.touches ? evento.touches[0] : evento;
+    const rect = frame.getBoundingClientRect();
+    setPos(((ponto.clientX - rect.left) / rect.width) * 100);
+  }
+
+  frame.addEventListener("pointerdown", (evento) => {
+    arrastando = true;
+    frame.setPointerCapture(evento.pointerId);
+    posDoEvento(evento);
+  });
+
+  frame.addEventListener("pointermove", (evento) => {
+    if (arrastando) posDoEvento(evento);
+  });
+
+  frame.addEventListener("pointerup", () => { arrastando = false; });
+  frame.addEventListener("pointercancel", () => { arrastando = false; });
+
+  range.addEventListener("input", () => setPos(Number(range.value)));
+  window.addEventListener("resize", tamanhoImagem);
+  if (beforeImg.complete) tamanhoImagem();
+  else beforeImg.addEventListener("load", tamanhoImagem);
+  window.addEventListener("load", tamanhoImagem);
+  setPos(50);
+}
+
+document.querySelectorAll("[data-compare]").forEach(iniciarComparador);
