@@ -626,7 +626,7 @@ p { margin: 0; }
   padding: 4rem 6vw 4rem 4rem;
 }
 
-.about-copy h2 { max-width: 12ch; }
+.about-copy h2 { white-space: nowrap; }
 
 .about-copy .role { margin-top: 0.15rem; }
 
