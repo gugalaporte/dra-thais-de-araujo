@@ -8,12 +8,18 @@ function fecharMenu() {
   menu.classList.remove("is-open");
   menuBtn.setAttribute("aria-expanded", "false");
   menuBtn.querySelector(".sr-only").textContent = "Abrir menu";
+  document.body.classList.remove("menu-open");
 }
 
 menuBtn.addEventListener("click", () => {
   const aberto = menu.classList.toggle("is-open");
   menuBtn.setAttribute("aria-expanded", String(aberto));
   menuBtn.querySelector(".sr-only").textContent = aberto ? "Fechar menu" : "Abrir menu";
+  document.body.classList.toggle("menu-open", aberto);
+});
+
+document.addEventListener("keydown", (evento) => {
+  if (evento.key === "Escape") fecharMenu();
 });
 
 menu.querySelectorAll("a").forEach((link) => {
