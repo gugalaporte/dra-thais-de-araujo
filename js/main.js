@@ -139,15 +139,83 @@ function iniciarCasos(root) {
   const next = root.querySelector("[data-casos-next]");
   if (!faixa || !prev || !next) return;
 
-  function passo(direcao) {
-    const card = faixa.querySelector(".caso");
-    if (!card) return;
-    const gap = parseFloat(getComputedStyle(faixa).gap) || 12;
-    faixa.scrollBy({ left: direcao * (card.offsetWidth + gap), behavior: "smooth" });
+  const originais = [...faixa.querySelectorAll(".caso:not(.is-clone)")];
+  if (originais.length < 2) return;
+
+  if (!faixa.dataset.loop) {
+    const primeiro = originais[0].cloneNode(true);
+    const ultimo = originais[originais.length - 1].cloneNode(true);
+    primeiro.classList.add("is-clone");
+    ultimo.classList.add("is-clone");
+    faixa.prepend(ultimo);
+    faixa.append(primeiro);
+    faixa.dataset.loop = "1";
   }
 
-  prev.addEventListener("click", () => passo(-1));
-  next.addEventListener("click", () => passo(1));
+  function mobile() {
+    return window.matchMedia("(max-width: 980px)").matches;
+  }
+
+  function passoPx() {
+    const card = faixa.querySelector(".caso");
+    const gap = parseFloat(getComputedStyle(faixa).gap) || 12;
+    return card.offsetWidth + gap;
+  }
+
+  function ir(indice, suave) {
+    faixa.scrollTo({ left: indice * passoPx(), behavior: suave ? "smooth" : "auto" });
+  }
+
+  function ajeitar() {
+    if (!mobile()) return;
+    const n = originais.length;
+    const i = Math.round(faixa.scrollLeft / passoPx());
+    if (i <= 0) ir(n, false);
+    else if (i >= n + 1) ir(1, false);
+  }
+
+  function passo(direcao) {
+    if (!mobile()) return;
+    const n = originais.length;
+    let i = Math.round(faixa.scrollLeft / passoPx()) + direcao;
+    ir(i, true);
+    window.setTimeout(ajeitar, 380);
+  }
+
+  prev.addEventListener("click", () => { passo(-1); andar(); });
+  next.addEventListener("click", () => { passo(1); andar(); });
+
+  faixa.addEventListener("scrollend", ajeitar);
+  faixa.addEventListener("touchend", () => window.setTimeout(ajeitar, 380), { passive: true });
+
+  let timer = null;
+
+  function parar() {
+    window.clearInterval(timer);
+    timer = null;
+  }
+
+  function andar() {
+    parar();
+    if (!mobile()) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    timer = window.setInterval(() => passo(1), 7000);
+  }
+
+  root.addEventListener("mouseenter", parar);
+  root.addEventListener("mouseleave", andar);
+  root.addEventListener("touchstart", parar, { passive: true });
+  root.addEventListener("touchend", () => window.setTimeout(andar, 800), { passive: true });
+
+  window.addEventListener("resize", () => {
+    if (mobile()) ir(1, false);
+    andar();
+  });
+
+  requestAnimationFrame(() => {
+    if (mobile()) ir(1, false);
+    andar();
+  });
 }
 
 document.querySelectorAll("[data-casos]").forEach(iniciarCasos);

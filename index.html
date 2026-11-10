@@ -12,7 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css?v=17">
   <link rel="stylesheet" href="css/compare.css?v=17">
-  <link rel="stylesheet" href="css/casos.css?v=19">
+  <link rel="stylesheet" href="css/casos.css?v=21">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -237,7 +237,7 @@
         </div>
         <div class="casos" data-casos>
           <button class="casos-btn" type="button" data-casos-prev aria-label="Caso anterior">‹</button>
-          <div class="casos-faixa" data-casos-faixa>
+          <div class="casos-faixa casos-faixa-pares" data-casos-faixa>
             <article class="caso caso-par">
               <p class="caso-tipo">Limpeza e Profilaxia</p>
               <div class="caso-fotos">
@@ -246,7 +246,7 @@
                   <figcaption>Antes</figcaption>
                 </figure>
                 <figure>
-                  <img src="casos-reais/image01.png" width="1600" height="900" alt="Depois do tratamento odontológico" loading="lazy">
+                  <img src="casos-reais/image01.png" width="1600" height="900" alt="Depois da limpeza e profilaxia" loading="lazy">
                   <figcaption>Depois</figcaption>
                 </figure>
               </div>
@@ -290,6 +290,13 @@
                 </figure>
               </div>
             </article>
+          </div>
+          <button class="casos-btn" type="button" data-casos-next aria-label="Próximo caso">›</button>
+        </div>
+
+        <div class="casos" data-casos>
+          <button class="casos-btn" type="button" data-casos-prev aria-label="Caso anterior">‹</button>
+          <div class="casos-faixa casos-faixa-unicos" data-casos-faixa>
             <article class="caso caso-unico">
               <p class="caso-tipo">Botox</p>
               <figure>
@@ -449,6 +456,6 @@
 
   <a class="dock js-agendar" data-dock href="https://wa.me/558193118769">Agendar pelo WhatsApp</a>
 
-  <script src="js/main.js?v=17"></script>
+  <script src="js/main.js?v=21"></script>
 </body>
 </html>

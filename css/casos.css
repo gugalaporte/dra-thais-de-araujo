@@ -1,17 +1,26 @@
 .casos {
   position: relative;
+  margin-top: 1.4rem;
 }
 
-.casos-faixa {
+.casos:first-of-type { margin-top: 0; }
+
+.casos-faixa-pares {
   display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-columns: 1fr 1fr;
+  gap: 1.1rem;
+}
+
+.casos-faixa-unicos {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.1rem;
 }
 
 .caso {
   background: #fff;
   border-radius: 22px;
-  padding: 0.7rem 0.7rem 0.85rem;
+  padding: 0.75rem 0.75rem 0.9rem;
   box-shadow: 0 10px 28px rgba(59, 47, 39, 0.05);
 }
 
@@ -24,10 +33,6 @@
   text-align: center;
   color: var(--bronze);
 }
-
-.caso-par { grid-column: span 6; }
-
-.caso-unico { grid-column: span 4; }
 
 .caso figure { margin: 0; }
 
@@ -57,6 +62,8 @@
   color: var(--bronze);
 }
 
+.caso.is-clone { display: none; }
+
 .casos-btn {
   display: none;
   place-items: center;
@@ -64,45 +71,64 @@
   height: 44px;
   border: 1px solid var(--line);
   border-radius: 50%;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.94);
   color: var(--coffee);
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   line-height: 1;
   cursor: pointer;
+  box-shadow: 0 6px 16px rgba(59, 47, 39, 0.1);
 }
 
 @media (max-width: 980px) {
-  .casos {
+  .casos { margin-top: 1.6rem; }
+
+  .casos-btn {
     display: grid;
-    grid-template-columns: 44px 1fr 44px;
-    align-items: center;
-    gap: 0.45rem;
+    position: absolute;
+    top: 46%;
+    z-index: 2;
+    transform: translateY(-50%);
   }
 
-  .casos-btn { display: grid; }
+  .casos-btn[data-casos-prev] { left: -0.15rem; }
 
-  .casos-faixa {
+  .casos-btn[data-casos-next] { right: -0.15rem; }
+
+  .casos-faixa-pares,
+  .casos-faixa-unicos {
     display: flex;
-    grid-column: 2;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    scroll-padding-inline: 0.2rem;
-    gap: 0.8rem;
-    padding: 0.15rem 0.1rem 0.6rem;
+    gap: 0.75rem;
+    padding: 0.1rem 0 0.4rem;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
   }
 
-  .casos-faixa::-webkit-scrollbar { display: none; }
+  .casos-faixa-pares::-webkit-scrollbar,
+  .casos-faixa-unicos::-webkit-scrollbar { display: none; }
+
+  .caso.is-clone { display: block; }
 
   .caso {
-    flex: 0 0 min(78vw, 340px);
+    flex: 0 0 auto;
     scroll-snap-align: center;
-    padding: 0.55rem;
+    padding: 0.6rem 0.55rem 0.7rem;
   }
 
-  .caso-par,
-  .caso-unico { grid-column: auto; }
+  .caso-par { width: min(78vw, 320px); }
 
-  .caso-unico img { max-height: 58vh; object-fit: contain; margin: 0 auto; }
+  .caso-unico { width: min(68vw, 280px); }
+
+  .caso-fotos img {
+    aspect-ratio: 1 / 1;
+    object-position: center 40%;
+  }
+
+  .caso-unico img {
+    height: auto;
+    object-fit: contain;
+  }
+
+  .caso figcaption { margin-top: 0.3rem; font-size: 0.66rem; }
 }
