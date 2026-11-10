@@ -132,3 +132,22 @@ function iniciarComparador(root) {
 }
 
 document.querySelectorAll("[data-compare]").forEach(iniciarComparador);
+
+function iniciarCasos(root) {
+  const faixa = root.querySelector("[data-casos-faixa]");
+  const prev = root.querySelector("[data-casos-prev]");
+  const next = root.querySelector("[data-casos-next]");
+  if (!faixa || !prev || !next) return;
+
+  function passo(direcao) {
+    const card = faixa.querySelector(".caso");
+    if (!card) return;
+    const gap = parseFloat(getComputedStyle(faixa).gap) || 12;
+    faixa.scrollBy({ left: direcao * (card.offsetWidth + gap), behavior: "smooth" });
+  }
+
+  prev.addEventListener("click", () => passo(-1));
+  next.addEventListener("click", () => passo(1));
+}
+
+document.querySelectorAll("[data-casos]").forEach(iniciarCasos);
