@@ -189,6 +189,7 @@ function iniciarCasos(root) {
   faixa.addEventListener("touchend", () => window.setTimeout(ajeitar, 380), { passive: true });
 
   let timer = null;
+  let visivel = true;
 
   function parar() {
     window.clearInterval(timer);
@@ -197,7 +198,7 @@ function iniciarCasos(root) {
 
   function andar() {
     parar();
-    if (!mobile()) return;
+    if (!mobile() || !visivel) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     timer = window.setInterval(() => passo(1), 7000);
   }
@@ -207,10 +208,14 @@ function iniciarCasos(root) {
   root.addEventListener("touchstart", parar, { passive: true });
   root.addEventListener("touchend", () => window.setTimeout(andar, 800), { passive: true });
 
-  window.addEventListener("resize", () => {
-    if (mobile()) ir(1, false);
-    andar();
-  });
+  if ("IntersectionObserver" in window) {
+    const ver = new IntersectionObserver(([entry]) => {
+      visivel = entry.isIntersecting;
+      if (visivel) andar();
+      else parar();
+    }, { threshold: 0.2 });
+    ver.observe(root);
+  }
 
   requestAnimationFrame(() => {
     if (mobile()) ir(1, false);
